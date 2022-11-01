@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class DynamicTest(TestBase):
     snippet_dir = "dynamic"

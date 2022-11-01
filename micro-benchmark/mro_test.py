@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class MroTest(TestBase):
     snippet_dir = "mro"
@@ -25,4 +25,6 @@ class MroTest(TestBase):
         self.validate_snippet(self.get_snippet_path("self_assignment"))
 
     def test_two_parents_method_defined(self):
-        self.validate_snippet(self.get_snippet_path("two_parents_method_defined"))
+        self.validate_snippet(
+            self.get_snippet_path("two_parents_method_defined")
+        )

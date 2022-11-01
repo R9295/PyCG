@@ -1,13 +1,15 @@
-
 import os
 
 from base import TestBase
+
 
 class ClassesTest(TestBase):
     snippet_dir = "classes"
 
     def test_imported_call_without_init(self):
-        self.validate_snippet(self.get_snippet_path("imported_call_without_init"))
+        self.validate_snippet(
+            self.get_snippet_path("imported_call_without_init")
+        )
 
     def test_direct_call(self):
         self.validate_snippet(self.get_snippet_path("direct_call"))
@@ -58,7 +60,9 @@ class ClassesTest(TestBase):
         self.validate_snippet(self.get_snippet_path("instance"))
 
     def test_imported_nested_attr_access(self):
-        self.validate_snippet(self.get_snippet_path("imported_nested_attr_access"))
+        self.validate_snippet(
+            self.get_snippet_path("imported_nested_attr_access")
+        )
 
     def test_parameter_call(self):
         self.validate_snippet(self.get_snippet_path("parameter_call"))

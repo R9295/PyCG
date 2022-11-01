@@ -24,6 +24,7 @@ import os
 from pycg import utils
 from pycg.machinery.definitions import Definition
 
+
 class ProcessingBase(ast.NodeVisitor):
     def __init__(self, filename, modname, modules_analyzed):
         self.modname = modname
@@ -75,8 +76,9 @@ class ProcessingBase(ast.NodeVisitor):
     def visit_Lambda(self, node, lambda_name=None):
         lambda_ns = utils.join_ns(self.current_ns, lambda_name)
         if not self.scope_manager.get_scope(lambda_ns):
-            self.scope_manager.create_scope(lambda_ns,
-                    self.scope_manager.get_scope(self.current_ns))
+            self.scope_manager.create_scope(
+                lambda_ns, self.scope_manager.get_scope(self.current_ns)
+            )
         self.name_stack.append(lambda_name)
         self.method_stack.append(lambda_name)
         self.visit(node.body)
@@ -191,7 +193,9 @@ class ProcessingBase(ast.NodeVisitor):
                         continue
                     defi = self._handle_assign(tns, decoded)
                     splitted = tns.split(".")
-                    self.scope_manager.handle_assign(".".join(splitted[:-1]), splitted[-1], defi)
+                    self.scope_manager.handle_assign(
+                        ".".join(splitted[:-1]), splitted[-1], defi
+                    )
 
         for target in targets:
             do_assign(decoded, target)
@@ -208,7 +212,9 @@ class ProcessingBase(ast.NodeVisitor):
 
                 return_ns = utils.constants.INVALID_NAME
                 if called_def.get_type() == utils.constants.FUN_DEF:
-                    return_ns = utils.join_ns(called_def.get_ns(), utils.constants.RETURN_NAME)
+                    return_ns = utils.join_ns(
+                        called_def.get_ns(), utils.constants.RETURN_NAME
+                    )
                 elif called_def.get_type() == utils.constants.CLS_DEF:
                     return_ns = called_def.get_ns()
                 defi = self.def_manager.get(return_ns)
@@ -217,7 +223,9 @@ class ProcessingBase(ast.NodeVisitor):
 
             return return_defs
         elif isinstance(node, ast.Lambda):
-            lambda_counter = self.scope_manager.get_scope(self.current_ns).get_lambda_counter()
+            lambda_counter = self.scope_manager.get_scope(
+                self.current_ns
+            ).get_lambda_counter()
             lambda_name = utils.get_lambda_name(lambda_counter)
             return [self.scope_manager.get_def(self.current_ns, lambda_name)]
         elif isinstance(node, ast.Tuple):
@@ -249,14 +257,18 @@ class ProcessingBase(ast.NodeVisitor):
         elif self._is_literal(node):
             return [node]
         elif isinstance(node, ast.Dict):
-            dict_counter = self.scope_manager.get_scope(self.current_ns).get_dict_counter()
+            dict_counter = self.scope_manager.get_scope(
+                self.current_ns
+            ).get_dict_counter()
             dict_name = utils.get_dict_name(dict_counter)
-            scope_def = self.scope_manager.get_def(self.current_ns, dict_name)
+            # scope_def = self.scope_manager.get_def(self.current_ns, dict_name)
             return [self.scope_manager.get_def(self.current_ns, dict_name)]
         elif isinstance(node, ast.List):
-            list_counter = self.scope_manager.get_scope(self.current_ns).get_list_counter()
+            list_counter = self.scope_manager.get_scope(
+                self.current_ns
+            ).get_list_counter()
             list_name = utils.get_list_name(list_counter)
-            scope_def = self.scope_manager.get_def(self.current_ns, list_name)
+            # scope_def = self.scope_manager.get_def(self.current_ns, list_name)
             return [self.scope_manager.get_def(self.current_ns, list_name)]
         elif isinstance(node, ast.Subscript):
             names = self.retrieve_subscript_names(node)
@@ -297,7 +309,6 @@ class ProcessingBase(ast.NodeVisitor):
                     names.add(item)
         return names
 
-
     def _retrieve_parent_names(self, node):
         if not isinstance(node, ast.Attribute):
             raise Exception("The node is not an attribute")
@@ -310,7 +321,9 @@ class ProcessingBase(ast.NodeVisitor):
         for parent in decoded:
             if not parent or not isinstance(parent, Definition):
                 continue
-            if getattr(self, "closured", None) and self.closured.get(parent.get_ns(), None):
+            if getattr(self, "closured", None) and self.closured.get(
+                parent.get_ns(), None
+            ):
                 names = names.union(self.closured.get(parent.get_ns()))
             else:
                 names.add(parent.get_ns())
@@ -331,7 +344,10 @@ class ProcessingBase(ast.NodeVisitor):
                     cls_names = self.find_cls_fun_ns(defi.get_ns(), node.attr)
                     if cls_names:
                         names = names.union(cls_names)
-                if defi.get_type() in [utils.constants.FUN_DEF, utils.constants.MOD_DEF]:
+                if defi.get_type() in [
+                    utils.constants.FUN_DEF,
+                    utils.constants.MOD_DEF,
+                ]:
                     names.add(utils.join_ns(name, node.attr))
                 if defi.get_type() == utils.constants.EXT_DEF:
                     # HACK: extenral attributes can lead to infinite loops
@@ -476,7 +492,11 @@ class ProcessingBase(ast.NodeVisitor):
 
         fname = self.import_manager.get_filepath(imp)
 
-        if not fname or not fname.endswith(".py") or not self.import_manager.get_mod_dir() in fname:
+        if (
+            not fname
+            or not fname.endswith(".py")
+            or not self.import_manager.get_mod_dir() in fname
+        ):
             return
 
         self.import_manager.set_current_mod(imp, fname)

@@ -1,13 +1,15 @@
-
 import os
 
 from base import TestBase
+
 
 class ImportsTest(TestBase):
     snippet_dir = "imports"
 
     def test_relative_import_with_name(self):
-        self.validate_snippet(self.get_snippet_path("relative_import_with_name"))
+        self.validate_snippet(
+            self.get_snippet_path("relative_import_with_name")
+        )
 
     def test_submodule_import_from(self):
         self.validate_snippet(self.get_snippet_path("submodule_import_from"))

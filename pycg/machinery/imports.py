@@ -18,19 +18,21 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-import sys
 import ast
-import os
-import importlib
 import copy
+import importlib
+import os
+import sys
 
 from pycg import utils
+
 
 def get_custom_loader(ig_obj):
     """
     Closure which returns a custom loader
     that modifies an ImportManager object
     """
+
     class CustomLoader(importlib.abc.SourceLoader):
         def __init__(self, fullname, path):
             self.fullname = fullname
@@ -48,6 +50,7 @@ def get_custom_loader(ig_obj):
             return ""
 
     return CustomLoader
+
 
 class ImportManager(object):
     def __init__(self):
@@ -88,7 +91,6 @@ class ImportManager(object):
 
         node["imports"].add(dest)
 
-
     def _clear_caches(self):
         importlib.invalidate_caches()
         sys.path_importer_cache.clear()
@@ -122,7 +124,6 @@ class ImportManager(object):
         if not modname in self.import_graph:
             return []
         return self.import_graph[modname]["imports"]
-
 
     def _is_init_file(self):
         return self.input_file.endswith("__init__.py")
@@ -173,10 +174,12 @@ class ImportManager(object):
 
         parent = ".".join(mod_name.split(".")[:-1])
         parent_name = ".".join(name.split(".")[:-1])
-        combos = [(mod_name, package),
-                (parent, package),
-                (utils.join_ns(package, name), ""),
-                (utils.join_ns(package, parent_name), "")]
+        combos = [
+            (mod_name, package),
+            (parent, package),
+            (utils.join_ns(package, name), ""),
+            (utils.join_ns(package, parent_name), ""),
+        ]
 
         mod = None
         for mn, pkg in combos:
@@ -197,8 +200,7 @@ class ImportManager(object):
         if fname.endswith("__init__.py"):
             fname = os.path.split(fname)[0]
 
-        return utils.to_mod_name(
-            os.path.relpath(fname, self.mod_dir))
+        return utils.to_mod_name(os.path.relpath(fname, self.mod_dir))
 
     def get_import_graph(self):
         return self.import_graph
@@ -209,7 +211,9 @@ class ImportManager(object):
         self.old_path = copy.deepcopy(sys.path)
 
         loader_details = loader, importlib.machinery.all_suffixes()
-        sys.path_hooks.insert(0, importlib.machinery.FileFinder.path_hook(loader_details))
+        sys.path_hooks.insert(
+            0, importlib.machinery.FileFinder.path_hook(loader_details)
+        )
         sys.path.insert(0, os.path.abspath(self.mod_dir))
 
         self._clear_caches()
@@ -219,6 +223,7 @@ class ImportManager(object):
         sys.path = self.old_path
 
         self._clear_caches()
+
 
 class ImportManagerError(Exception):
     pass

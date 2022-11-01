@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class ReturnsTest(TestBase):
     snippet_dir = "returns"

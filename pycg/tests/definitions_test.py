@@ -19,9 +19,14 @@
 # under the License.
 #
 from base import TestBase
-from pycg.machinery.definitions import Definition, DefinitionManager, DefinitionError
-from pycg.machinery.pointers import LiteralPointer
+
 from pycg import utils
+
+from pycg.machinery.definitions import (  # isort:skip
+    DefinitionError,
+    DefinitionManager,
+)
+
 
 class DefinitionManagerTest(TestBase):
     def test_create(self):
@@ -64,12 +69,14 @@ class DefinitionManagerTest(TestBase):
         self.assertEqual(defi2.get_name_pointer().get_arg(0), set(["arg"]))
 
         # for function defs a return def should be created too
-        fndefi = dm.create("fndefi", utils.constants.FUN_DEF)
-        fndefi2 = dm.assign("fndefi2", fndefi)
+        # fndefi = dm.create("fndefi", utils.constants.FUN_DEF)
+        # fndefi2 = dm.assign("fndefi2", fndefi)
         return_def = dm.get("{}.{}".format("fndefi2", utils.constants.RETURN_NAME))
         self.assertIsNotNone(return_def)
-        self.assertEqual(return_def.get_name_pointer().get(), set(["{}.{}".format("fndefi", utils.constants.RETURN_NAME)]))
-
+        self.assertEqual(
+            return_def.get_name_pointer().get(),
+            set(["{}.{}".format("fndefi", utils.constants.RETURN_NAME)]),
+        )
 
     def test_handle_function_def(self):
         # handle parent definition

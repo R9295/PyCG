@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class LambdasTest(TestBase):
     snippet_dir = "lambdas"

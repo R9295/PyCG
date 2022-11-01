@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class DictsTest(TestBase):
     snippet_dir = "dicts"

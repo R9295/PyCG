@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class ArgsTest(TestBase):
     snippet_dir = "args"

@@ -1,6 +1,7 @@
 class Cls:
     x = "a"
 
+
 d = {"a": "ab"}
 
 cl = Cls()

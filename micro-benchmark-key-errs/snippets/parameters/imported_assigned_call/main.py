@@ -1,7 +1,9 @@
 from to_import import const1, const2
 
+
 def func(dct, key):
     dct[key]
+
 
 d = {"a": "ab"}
 

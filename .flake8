@@ -1,0 +1,15 @@
+[flake8]
+max-line-length = 79
+extend-ignore = E203
+exclude =
+    *.yaml
+    .git
+    __pycache__
+    setup.py
+    build
+    dist
+    micro-benchmark
+    micro-benchmark-key-errs
+    pyproject.toml
+    poetry.lock
+    .flake8

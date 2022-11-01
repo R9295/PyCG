@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class ExternalTest(TestBase):
     snippet_dir = "external"

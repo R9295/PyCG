@@ -1,7 +1,7 @@
-
 import os
 
 from base import TestBase
+
 
 class ListsTest(TestBase):
     snippet_dir = "lists"

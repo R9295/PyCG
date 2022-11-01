@@ -13,3 +13,4 @@ exclude =
     pyproject.toml
     poetry.lock
     .flake8
+    README.md

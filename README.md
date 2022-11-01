@@ -1,4 +1,4 @@
-# PyCG - Practical Python Call Graphs
+# (Fork of) PyCG - Practical Python Call Graphs
 
 PyCG generates call graphs for Python code using static analysis.
 It efficiently supports
